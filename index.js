@@ -4,7 +4,7 @@ import { getDatabase, ref, push, onValue, remove, set } from "https://www.gstati
 
 // Firebase Realtime Database URL
 const appSettings = {
-    databaseURL: "https://productivity-app-b9f35-default-rtdb.firebaseio.com/"
+    databaseURL: "Insert Your Firebase Database URL."
 }
 
 // Creating objects to be used by all the functions
