@@ -1,3 +1,4 @@
+// Importing things to interact with Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"
 import { getDatabase, ref, push, onValue, remove, set } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
 
@@ -6,6 +7,7 @@ const appSettings = {
     databaseURL: "https://productivity-app-b9f35-default-rtdb.firebaseio.com/"
 }
 
+// Creating objects to be used by all the functions
 const app = initializeApp(appSettings)
 const database = getDatabase(app)
 const toDoListInDB = ref(database, "toDoList")
@@ -16,6 +18,7 @@ const addButtonEl = document.getElementById("add-button")
 const toDoListEl = document.getElementById("to-do-list")
 const completedListEl = document.getElementById("completed-list")
 
+// Listen for when button is pushed and add text box value to the To-Do list
 addButtonEl.addEventListener("click", function () {
     const inputValue = inputFieldEl.value.trim()
     if (inputValue !== "") {
@@ -24,6 +27,7 @@ addButtonEl.addEventListener("click", function () {
     }
 })
 
+// When the To-Do list has an update with something in the To-List, display them, else display no tasks yet
 onValue(toDoListInDB, function (snapshot) {
     toDoListEl.innerHTML = ""
     if (snapshot.exists()) {
@@ -35,6 +39,7 @@ onValue(toDoListInDB, function (snapshot) {
     }
 })
 
+// When the Completed To-Do list has an update with something in the Completed To-List, display it or them
 onValue(completedListInDB, function (snapshot) {
     completedListEl.innerHTML = ""
     if (snapshot.exists()) {
@@ -44,6 +49,9 @@ onValue(completedListInDB, function (snapshot) {
     }
 })
 
+// Used by onValue functions of To-Do list
+// Adds the items that have been pushed to the data base into the HTML of the page
+// Gives each item box a edit, delete, and complete buttons
 function appendItemToToDoListEl([itemID, itemValue]) {
     const li = document.createElement("li")
     li.textContent = itemValue
@@ -91,6 +99,9 @@ function appendItemToToDoListEl([itemID, itemValue]) {
     toDoListEl.appendChild(li)
 }
 
+// Used by onValue functions of Completed To-Do list
+// Adds the items that have been pushed to the data base into the HTML of the page
+// Gives each item a restore button
 function appendItemToCompletedListEl([itemID, itemValue]) {
     const li = document.createElement("li")
     li.textContent = itemValue
@@ -110,4 +121,5 @@ function appendItemToCompletedListEl([itemID, itemValue]) {
 
     li.appendChild(restoreBtn)
     completedListEl.appendChild(li)
+
 }
